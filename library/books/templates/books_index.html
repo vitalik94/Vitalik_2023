@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<h1>Библиотека</h1>
+<div class="row no-gutters">
+{% for book in books %}
+    <div class="col-md-3 mb-5">
+      <div class="card md-2 offset-md-1" style="width: 20em; height: 35em; padding: 1.5em .5em .5em; border-radius: 2em;
+        box-shadow: 0 5px 10px rgba(0,0,0,.2); background: rgba(255,255,255,.5)">
+          <img class="card-img-top" src="{% static book.image %}" height="300" style="border-radius: 2em;">
+          <div class="card-body" style="height: 300px;">
+            <div style="display: table-cell; vertical-align: middle;">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <p class="card-text">{{ book.author }}</p>
+              <p class="card-text">{{ book.year }}, {{ book.genre }}</p>
+              <div style="position: absolute; bottom: 10;">
+                <a href="{% url 'book_detail' book.pk %}" class="btn btn-primary">
+                Подробнее
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+{%endblock%}

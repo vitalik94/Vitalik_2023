@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <div class="card" style="padding: 1.5em .5em .5em; border-radius: 2em;
+        box-shadow: 0 5px 10px rgba(0,0,0,.2); background: rgba(255,255,255,.5);">
+        <h1>{{ post.title }}</h1>
+        <small>
+            {{ post.created_on.date }} |&nbsp;
+            Категории:&nbsp;
+            {% for category in post.categories.all %}
+            <a href="{% url 'forum_category' category.name %}">
+                {{ category.name }}
+            </a>&nbsp;
+            {% endfor %}
+        </small>
+        <p>{{ post.body | linebreaks }}</p>
+        <h3>Оставьте комментарий:</h3>
+        <form action="/forum/{{ post.pk }}/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.author }}
+            </div>
+            <div class="form-group">
+                {{ form.body }}
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+        <h3>Комментарии:</h3>
+        {% for comment in comments %}
+        <p>
+            {{comment.created_on.date }}
+            {{comment.created_on.time }}
+            <b>{{ comment.author }}</b> написал:
+        </p>
+        <p>{{ comment.body }}</p>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
